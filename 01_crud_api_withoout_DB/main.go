@@ -102,17 +102,19 @@ func UpdateMovies(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var movie Movie
 	_ = json.NewDecoder(r.Body).Decode(&movie)
-	fmt.Println(params["id"], movie)
 
 	for i, val := range Movies {
 		if params["id"] == val.ID {
-			movie.ID = params["id"]
-			Movies = append(Movies[:i], Movies[i+1:]...)
-			Movies = append(Movies, movie)
-			fmt.Println(movie)
-			json.NewEncoder(w).Encode(movie)
+			// movie.ID = params["id"]
+			// val.Isbn = movie.Isbn
+			// val.Title = movie.Title
+			// val.Director = movie.Director
+			Movies[i].ID = movie.ID
+			Movies[i].Title = movie.Title
+			Movies[i].Isbn = movie.Isbn
+			Movies[i].Director = movie.Director
+			json.NewEncoder(w).Encode(Movies)
 			return
 		}
-		break
 	}
 }
